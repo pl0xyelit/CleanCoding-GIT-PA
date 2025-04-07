@@ -115,42 +115,42 @@ void canbe(GRAPH *graph, int nrv, STACK *stack1, STACK *stack2) // 0 sau 1 daca 
     int *canbe = calloc(5, sizeof(int));
     for (int i = 0; i < nrv; i++) { // aici i tine loc de numar adica de restaurant{for (int j = 0; j < 5; j++)
         for(int j = 0; j < 5; j++) {
-        DFS(graph, stack1, i);
-        wipe(graph, nrv);
-        DFS(graph, stack2, j);
-        for (int j = 0; j < nrv && !ans; j++) {
-            for (int i = 0; i < nrv && !ans; i++) {
-                if ((stack1->array[i] == j) && (stack2->array[j] == i)) {
-                    canbe = 1;
+            DFS(graph, stack1, i);
+            wipe(graph, nrv);
+            DFS(graph, stack2, j);
+            for (int j = 0; j < nrv && !ans; j++) {
+                for (int i = 0; i < nrv && !ans; i++) {
+                    if ((stack1->array[i] == j) && (stack2->array[j] == i)) {
+                        canbe = 1;
+                    }
                 }
             }
         }
-    }
     }
 }
 
 int main()
 {
 
-    int nrv;
-    int edge_nr;
+    int numberOfVertices;
+    int numberOfEdges;
     int src, dest;
     int i;
     int vortex_1;
     int virtex_2;
     int ans;
 
-    printf("cate noduri are graphirafa?");
-    scanf("%d", &nrv);
+    printf("cate noduri are graful?");
+    scanf("%d", &numberOfVertices);
 
-    printf("cate muchii are graphiraful?");
-    scanf("%d", &edge_nr);
+    printf("cate muchii are graful?");
+    scanf("%d", &numberOfEdges);
 
-    GRAPH *graph = create_graph(&nrv);
-    STACK *stack1 = create_s(2 * nrv);
-    STACK *stack2 = create_s(2 * nrv);
+    GRAPH *graph = create_graph(&numberOfVertices);
+    STACK *stack1 = create_s(2 * numberOfVertices);
+    STACK *stack2 = create_s(2 * numberOfVertices);
 
-    insert_edgraphes(graph, edge_nr, nrv);
+    insert_edgraphes(graph, numberOfEdges, numberOfVertices);
 
-    canbe(graph, nrv, stack1, stack2);
+    canbe(graph, numberOfVertices, stack1, stack2);
 }
