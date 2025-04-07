@@ -33,17 +33,17 @@ NODE* createNode(int value)
     return newNode;
 }
 
-void add_edge(GRAPH *graph, int source, int destination)
+void addEdge(GRAPH *graph, int source, int destination)
 {
-    NODE *newNode = create_node(destination);
+    NODE *newNode = createNode(destination);
     newNode->next = graph->alists[source];
     graph->alists[source] = newNode;
-    newNode = create_node(source);
+    newNode = createNode(source);
     newNode->next = graph->alists[destination];
     graph->alists[destination] = newNode;
 }
 
-GRAPH *create_graph(int vertex)
+GRAPH* createGraph(int vertex)
 {
     int i;
     GRAPH *graph = malloc(sizeof(GRAPH));
@@ -51,7 +51,7 @@ GRAPH *create_graph(int vertex)
     graph->alists = malloc(sizeof(NODE *));
     graph->visited = malloc(sizeof(int) * vertex);
 
-    for (int i = 0; i < vertex; i++)
+    for (i = 0; i < vertex; i++)
     {
         graph->alists[i] = NULL;
         graph->visited[i] = 0;
@@ -59,7 +59,7 @@ GRAPH *create_graph(int vertex)
     return graph;
 }
 
-STACK *create_stack(int stackCap)
+STACK* createStack(int stackCap)
 {
     STACK *stack = malloc(sizeof(STACK));
     stack->array = malloc(stackCap * sizeof(int));
@@ -91,37 +91,37 @@ void DFS(GRAPH *graph, STACK *stack, int v_nr)
     }
 }
 
-void insert_edges(GRAPH *graph, int edgraph_nr, int nrv)
+void insertEdges(GRAPH *graph, int edgraph_nr, int numberOfVertices)
 {
     int source, destination, i;
-    printf("adauga %d munchii (de la 1 la %d)\n", edgraph_nr, nrv);
+    printf("adauga %d munchii (de la 1 la %d)\n", edgraph_nr, numberOfVertices);
     for (i = 0; i < edgraph_nr; i++)
     {
         scanf("%d%d", &source, &destination);
-        add_edge(graph, source, destination);
+        insertEdges(graph, source, destination);
     }
 }
 
-void wipe(GRAPH *graph, int nrv)
+void wipe(GRAPH *graph, int numberOfVertices)
 {
-    for (int i = 0; i < nrv; i++)
+    for (int i = 0; i < numberOfVertices; i++)
     {
         graph->visited[i] = 0;
     }
 }
 
-void canbe(GRAPH *graph, int nrv, STACK *stack1, STACK *stack2) // 0 sau 1 daca poate fi sau nu ajuns
+void canbe(GRAPH *graph, int numberOfVertices, STACK *stack1, STACK *stack2) // 0 sau 1 daca poate fi sau nu ajuns
 {
     int *canbe = calloc(5, sizeof(int));
-    for (int i = 0; i < nrv; i++) { // aici i tine loc de numar adica de restaurant{for (int j = 0; j < 5; j++)
+    for (int i = 0; i < numberOfVertices; i++) { // aici i tine loc de numar adica de restaurant{for (int j = 0; j < 5; j++)
         for(int j = 0; j < 5; j++) {
             DFS(graph, stack1, i);
-            wipe(graph, nrv);
+            wipe(graph, numberOfVertices);
             DFS(graph, stack2, j);
-            for (int j = 0; j < nrv && !ans; j++) {
-                for (int i = 0; i < nrv && !ans; i++) {
+            for (int j = 0; j < numberOfVertices; j++) {
+                for (int i = 0; i < numberOfVertices; i++) {
                     if ((stack1->array[i] == j) && (stack2->array[j] == i)) {
-                        canbe = 1;
+                        canbe[j] = 1;
                     }
                 }
             }
@@ -134,23 +134,23 @@ int main()
 
     int numberOfVertices;
     int numberOfEdges;
-    int source, destination;
-    int i;
-    int vortex_1;
-    int virtex_2;
-    int ans;
+    // int source, destination;
+    // int i;
+    // int vortex_1;
+    // int virtex_2;
+    // int ans;
 
-    printf("cate noduri are graful?");
+    printf("cate noduri are graful? ");
     scanf("%d", &numberOfVertices);
 
-    printf("cate muchii are graful?");
+    printf("cate muchii are graful? ");
     scanf("%d", &numberOfEdges);
 
-    GRAPH *graph = create_graph(&numberOfVertices);
-    STACK *stack1 = create_s(2 * numberOfVertices);
-    STACK *stack2 = create_s(2 * numberOfVertices);
+    GRAPH *graph = createGraph(numberOfVertices);
+    STACK *stack1 = createStack(2 * numberOfVertices);
+    STACK *stack2 = createStack(2 * numberOfVertices);
 
-    insert_edgraphes(graph, numberOfEdges, numberOfVertices);
+    insertEdges(graph, numberOfEdges, numberOfVertices);
 
     canbe(graph, numberOfVertices, stack1, stack2);
 }
