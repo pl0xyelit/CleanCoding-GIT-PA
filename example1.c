@@ -33,20 +33,10 @@ NODE* createNode(int value)
     return newNode;
 }
 
-void addEdge(GRAPH *graph, int source, int destination)
-{
-    NODE* newNode = createNode(destination);
-    newNode->next = graph->adjacencyLists[source];
-    graph->adjacencyLists[source] = newNode;
-    newNode = createNode(source);
-    newNode->next = graph->adjacencyLists[destination];
-    graph->adjacencyLists[destination] = newNode;
-}
-
 GRAPH* createGraph(int numberOfVertices)
 {
     int i;
-    GRAPH* graph = malloc(sizeof(GRAPH));
+    GRAPH* graph = (GRAPH*)malloc(sizeof(GRAPH));
     graph->vertices = numberOfVertices;
     graph->adjacencyLists = (NODE**)malloc(numberOfVertices * sizeof(NODE*));
     graph->visited = (int*)malloc(numberOfVertices * sizeof(int));
@@ -65,7 +55,7 @@ STACK* createStack(int stackCap)
     stack->array = malloc(stackCap * sizeof(int));
     stack->top = -1;
     stack->stackCap = stackCap;
-
+    
     return stack;
 }
 
@@ -86,9 +76,22 @@ void DFS(GRAPH *graph, STACK *stack, int numberOfVertices)
     {
         int connectedVertex = temp->data;
         if (graph->visited[connectedVertex] == 0)
-            DFS(graph, stack, connectedVertex);
+        DFS(graph, stack, connectedVertex);
         temp = temp->next;
     }
+}
+
+void addEdge(GRAPH* graph, int source, int destination)
+{
+    NODE* newNode = createNode(destination);
+
+    newNode->next = graph->adjacencyLists[source];
+    graph->adjacencyLists[source] = newNode;
+
+    newNode = createNode(source);
+
+    newNode->next = graph->adjacencyLists[destination];
+    graph->adjacencyLists[destination] = newNode;
 }
 
 void insertEdges(GRAPH* graph, int edgraph_nr, int numberOfVertices)
@@ -98,7 +101,7 @@ void insertEdges(GRAPH* graph, int edgraph_nr, int numberOfVertices)
     for (i = 0; i < edgraph_nr; i++)
     {
         scanf("%d%d", &source, &destination);
-        insertEdges(graph, source, destination);
+        addEdge(graph, source, destination);
     }
 }
 
