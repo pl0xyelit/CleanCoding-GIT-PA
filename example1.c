@@ -13,7 +13,7 @@ typedef struct Node
 
 typedef struct graph
 {
-    int v;
+    int vertex;
     int *visited;
     struct Node **alists;
 } GRAPH;
@@ -43,15 +43,15 @@ void add_edge(GRAPH *graph, int source, int destination)
     graph->alists[destination] = newNode;
 }
 
-GRAPH *create_graph(int v)
+GRAPH *create_graph(int vertex)
 {
     int i;
     GRAPH *graph = malloc(sizeof(GRAPH));
-    graph->v = v;
+    graph->vertex = vertex;
     graph->alists = malloc(sizeof(NODE *));
-    graph->visited = malloc(sizeof(int) * v);
+    graph->visited = malloc(sizeof(int) * vertex);
 
-    for (int i = 0; i < v; i++)
+    for (int i = 0; i < vertex; i++)
     {
         graph->alists[i] = NULL;
         graph->visited[i] = 0;
