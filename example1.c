@@ -120,8 +120,9 @@ void canbe(GRAPH *graph, int nrv, STACK *stack1, STACK *stack2) // 0 sau 1 daca 
         DFS(graph, stack2, j);
         for (int j = 0; j < nrv && !ans; j++)
             for (int i = 0; i < nrv && !ans; i++)
-                if ((stack1->array[i] * /= = j) && (stack2->array[j] == i))
+                if ((stack1->array[i] == j) && (stack2->array[j] == i)) {
                     canbe = 1;
+                }
     }
 }
 
