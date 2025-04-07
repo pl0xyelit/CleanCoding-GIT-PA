@@ -81,12 +81,12 @@ void DFS(GRAPH *graph, STACK *stack, int v_nr)
     NODE *aux = adj_list;
     graph->visited[v_nr] = 1;
     printf("%d ", v_nr);
-    push(v_nr, s);
+    push(v_nr, stack);
     while (aux != NULL)
     {
         int con_ver = aux->data;
         if (graph->visited[con_ver] == 0)
-            DFS(graph, s, con_ver);
+            DFS(graph, stack, con_ver);
         aux = aux->next;
     }
 }
