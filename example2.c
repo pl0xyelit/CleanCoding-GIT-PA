@@ -28,11 +28,12 @@ NODE* createNode(int value)
 GRAPH* createGraph(int vertices)
 {
     int i;
+
     GRAPH* graph = (GRAPH*)malloc(sizeof(GRAPH));
     graph->vertices = vertices;
     graph->adjacencyLists = (NODE**)malloc(vertices * sizeof(NODE *));
-
     graph->visited = (int*)malloc(sizeof(int) * vertices);
+    
     for (i = 0; i < vertices; i++)
     {
         graph->adjacencyLists[i] = NULL;
@@ -90,7 +91,10 @@ void enqueue(NODE** queue, int data)
 int dequeue(NODE** queue)
 {
     int data = (*queue)->data;
+    NODE* temp = *queue;
     *queue = (*queue)->next;
+    free(temp);
+
     return data;
 }
 
