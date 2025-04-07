@@ -93,12 +93,12 @@ void DFS(GRAPH *graph, STACK *stack, int v_nr)
 
 void insert_edges(GRAPH *graph, int edgraph_nr, int nrv)
 {
-    int src, dest, i;
+    int source, destination, i;
     printf("adauga %d munchii (de la 1 la %d)\n", edgraph_nr, nrv);
     for (i = 0; i < edgraph_nr; i++)
     {
-        scanf("%d%d", &src, &dest);
-        add_edge(graph, src, dest);
+        scanf("%d%d", &source, &destination);
+        add_edge(graph, source, destination);
     }
 }
 
@@ -134,7 +134,7 @@ int main()
 
     int numberOfVertices;
     int numberOfEdges;
-    int src, dest;
+    int source, destination;
     int i;
     int vortex_1;
     int virtex_2;
