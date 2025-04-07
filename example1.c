@@ -94,11 +94,11 @@ void addEdge(GRAPH* graph, int source, int destination)
     graph->adjacencyLists[destination] = newNode;
 }
 
-void insertEdges(GRAPH* graph, int edgraph_nr, int numberOfVertices)
+void insertEdges(GRAPH* graph, int numberOfEdges, int numberOfVertices)
 {
     int source, destination, i;
-    printf("adauga %d munchii (de la 1 la %d)\n", edgraph_nr, numberOfVertices);
-    for (i = 0; i < edgraph_nr; i++)
+    printf("adauga %d munchii (de la 1 la %d)\n", numberOfEdges, numberOfVertices);
+    for (i = 0; i < numberOfEdges; i++)
     {
         scanf("%d%d", &source, &destination);
         addEdge(graph, source - 1, destination - 1);
