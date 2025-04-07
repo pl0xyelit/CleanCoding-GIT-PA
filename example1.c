@@ -6,7 +6,7 @@
 typedef struct Node 
 {
     int data;
-    struct Node *next;
+    struct Node* next;
 } NODE;
 /// pentru simplitate, folosim int uri pt a numi restaurantel/locatiile
 /// ex: 1 - restaurantul 1 si tot asa
@@ -14,20 +14,20 @@ typedef struct Node
 typedef struct graph
 {
     int vertex;
-    int *visited;
-    struct Node **alists;
+    int* visited;
+    struct Node** adjacencyLists;
 } GRAPH;
 
-typedef struct s
+typedef struct stack
 {
     int top;
     int stackCap;
-    int *array;
+    int* array;
 } STACK;
 
 NODE* createNode(int value)
 {
-    NODE *newNode = malloc(sizeof(NODE));
+    NODE* newNode = (NODE*)malloc(sizeof(NODE));
     newNode->data = value;
     newNode->next = NULL;
     return newNode;
@@ -35,25 +35,25 @@ NODE* createNode(int value)
 
 void addEdge(GRAPH *graph, int source, int destination)
 {
-    NODE *newNode = createNode(destination);
-    newNode->next = graph->alists[source];
-    graph->alists[source] = newNode;
+    NODE* newNode = createNode(destination);
+    newNode->next = graph->adjacencyLists[source];
+    graph->adjacencyLists[source] = newNode;
     newNode = createNode(source);
-    newNode->next = graph->alists[destination];
-    graph->alists[destination] = newNode;
+    newNode->next = graph->adjacencyLists[destination];
+    graph->adjacencyLists[destination] = newNode;
 }
 
 GRAPH* createGraph(int vertex)
 {
     int i;
-    GRAPH *graph = malloc(sizeof(GRAPH));
+    GRAPH* graph = malloc(sizeof(GRAPH));
     graph->vertex = vertex;
-    graph->alists = malloc(sizeof(NODE *));
-    graph->visited = malloc(sizeof(int) * vertex);
+    graph->adjacencyLists = (NODE**)malloc(vertex * sizeof(NODE*));
+    graph->visited = (int*)malloc(sizeof(int) * vertex);
 
     for (i = 0; i < vertex; i++)
     {
-        graph->alists[i] = NULL;
+        graph->adjacencyLists[i] = NULL;
         graph->visited[i] = 0;
     }
     return graph;
@@ -61,7 +61,7 @@ GRAPH* createGraph(int vertex)
 
 STACK* createStack(int stackCap)
 {
-    STACK *stack = malloc(sizeof(STACK));
+    STACK* stack = malloc(sizeof(STACK));
     stack->array = malloc(stackCap * sizeof(int));
     stack->top = -1;
     stack->stackCap = stackCap;
@@ -77,8 +77,8 @@ void push(int value, STACK *stack)
 
 void DFS(GRAPH *graph, STACK *stack, int numberOfVertices)
 {
-    NODE *adj_list = graph->alists[numberOfVertices];
-    NODE *temp = adj_list;
+    NODE* adj_list = graph->adjacencyLists[numberOfVertices];
+    NODE* temp = adj_list;
     graph->visited[numberOfVertices] = 1;
     printf("%d ", numberOfVertices);
     push(numberOfVertices, stack);
@@ -91,7 +91,7 @@ void DFS(GRAPH *graph, STACK *stack, int numberOfVertices)
     }
 }
 
-void insertEdges(GRAPH *graph, int edgraph_nr, int numberOfVertices)
+void insertEdges(GRAPH* graph, int edgraph_nr, int numberOfVertices)
 {
     int source, destination, i;
     printf("adauga %d munchii (de la 1 la %d)\n", edgraph_nr, numberOfVertices);
@@ -102,7 +102,7 @@ void insertEdges(GRAPH *graph, int edgraph_nr, int numberOfVertices)
     }
 }
 
-void wipe(GRAPH *graph, int numberOfVertices)
+void wipe(GRAPH* graph, int numberOfVertices)
 {
     for (int i = 0; i < numberOfVertices; i++)
     {
@@ -110,9 +110,9 @@ void wipe(GRAPH *graph, int numberOfVertices)
     }
 }
 
-void canbe(GRAPH *graph, int numberOfVertices, STACK *stack1, STACK *stack2) // 0 sau 1 daca poate fi sau nu ajuns
+void canbe(GRAPH* graph, int numberOfVertices, STACK* stack1, STACK* stack2) // 0 sau 1 daca poate fi sau nu ajuns
 {
-    int *canbe = calloc(5, sizeof(int));
+    int* canbe = calloc(5, sizeof(int));
     for (int i = 0; i < numberOfVertices; i++) { // aici i tine loc de numar adica de restaurant{for (int j = 0; j < 5; j++)
         for(int j = 0; j < 5; j++) {
             DFS(graph, stack1, i);
@@ -141,9 +141,9 @@ int main()
     printf("cate muchii are graful? ");
     scanf("%d", &numberOfEdges);
 
-    GRAPH *graph = createGraph(numberOfVertices);
-    STACK *stack1 = createStack(2 * numberOfVertices);
-    STACK *stack2 = createStack(2 * numberOfVertices);
+    GRAPH* graph = createGraph(numberOfVertices);
+    STACK* stack1 = createStack(2 * numberOfVertices);
+    STACK* stack2 = createStack(2 * numberOfVertices);
 
     insertEdges(graph, numberOfEdges, numberOfVertices);
 
