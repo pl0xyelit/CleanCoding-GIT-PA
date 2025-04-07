@@ -20,10 +20,10 @@ typedef struct graph
 
 typedef struct s
 {
-    int t;
-    int scap;
-    int *arr;
-} STK;
+    int top;
+    int stackCap;
+    int *array;
+} STACK;
 
 NODE *create_node(int v)
 {
@@ -33,7 +33,7 @@ NODE *create_node(int v)
     return newNode;
 }
 
-void add_edgraphe(GRAPH *graph, int source, int destination)
+void add_edge(GRAPH *graph, int source, int destination)
 {
     NODE *newNode = create_node(destination);
     newNode->next = graph->last[source];
@@ -55,27 +55,27 @@ GRAPH *create_graph(int v)
     {
         graph->last[i] = NULL;
         graph->vis[i] = 0;
-    } /*/*/
+    }
     return graph;
 }
 
-STK *create_s(int scap)
+STACK *create_stack(int stackCap)
 {
-    STK *s = malloc(sizeof(STK));
-    s->arr = malloc(scap * sizeof(int));
-    s->t = -1;
-    s->scap = scap;
+    STACK *stack = malloc(sizeof(STACK));
+    stack->array = malloc(stackCap * sizeof(int));
+    stack->top = -1;
+    stack->stackCap = stackCap;
 
-    return s;
+    return stack;
 }
 
-void push(int pshd, STK *s)
+void push(int value, STACK *stack)
 {
-    s->t = s->t + 1;
-    s->arr[s->t] = pshd;
+    stack->top = stack->top + 1;
+    stack->array[stack->top] = value;
 }
 
-void DFS(GRAPH *graph, STK *s, int v_nr)
+void DFS(GRAPH *graph, STACK *stack, int v_nr)
 {
     NODE *adj_list = graph->last[v_nr];
     NODE *aux = adj_list;
@@ -91,14 +91,14 @@ void DFS(GRAPH *graph, STK *s, int v_nr)
     }
 }
 
-void insert_edgraphes(GRAPH *graph, int edgraph_nr, int nrv)
+void insert_edges(GRAPH *graph, int edgraph_nr, int nrv)
 {
     int src, dest, i;
-    printf("adaugrapha %d munchii (de la 1 la %d)\n", edgraph_nr, nrv);
+    printf("adauga %d munchii (de la 1 la %d)\n", edgraph_nr, nrv);
     for (i = 0; i < edgraph_nr; i++)
     {
         scanf("%d%d", &src, &dest);
-        add_edgraphe(graph, src, dest);
+        add_edge(graph, src, dest);
     }
 }
 
@@ -110,17 +110,17 @@ void wipe(GRAPH *graph, int nrv)
     }
 }
 
-void canbe(GRAPH *graph, int nrv, STK *s1, STK *s2) // 0 sau 1 daca poate fi sau nu ajuns
+void canbe(GRAPH *graph, int nrv, STACK *stack1, STACK *stack2) // 0 sau 1 daca poate fi sau nu ajuns
 {
     int *canbe = calloc(5, sizeof(int));
     for (int i = 0; i < nrv; i++) // aici i tine loc de numar adica de restaurant{for (int j = 0; j < 5; j++)
     {
-        DFS(graph, s1, i);
+        DFS(graph, stack1, i);
         wipe(graph, nrv);
-        DFS(graph, s2, j);
+        DFS(graph, stack2, j);
         for (int j = 0; j < nrv && !ans; j++)
             for (int i = 0; i < nrv && !ans; i++)
-                if ((s1->arr[i] * /= = j) && (s2->arr[j] == i))
+                if ((stack1->array[i] * /= = j) && (stack2->array[j] == i))
                     canbe = 1;
     }
 }
@@ -129,7 +129,7 @@ int main()
 {
 
     int nrv;
-    int edgraph_nr;
+    int edge_nr;
     int src, dest;
     int i;
     int vortex_1;
@@ -140,13 +140,13 @@ int main()
     scanf("%d", &nrv);
 
     printf("cate muchii are graphiraful?");
-    scanf("%d", &edgraph_nr);
+    scanf("%d", &edge_nr);
 
     GRAPH *graph = create_graph(&nrv);
-    STK *s1 = create_s(2 * nrv);
-    STK *s2 = create_s(2 * nrv);
+    STACK *stack1 = create_s(2 * nrv);
+    STACK *stack2 = create_s(2 * nrv);
 
-    insert_edgraphes(graph, edgraph_nr, nrv);
+    insert_edgraphes(graph, edge_nr, nrv);
 
-    canbe(graph, nrv, s1, s2);
+    canbe(graph, nrv, stack1, stack2);
 }
