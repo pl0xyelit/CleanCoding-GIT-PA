@@ -65,18 +65,18 @@ void push(int value, STACK *stack)
     stack->array[stack->top] = value;
 }
 
-void DFS(GRAPH* graph, STACK* stack, int numberOfVertices)
+void DFS(GRAPH* graph, STACK* stack, int vertexNumber)
 {
-    NODE* adj_list = graph->adjacencyLists[numberOfVertices];
-    NODE* temp = adj_list;
-    graph->visited[numberOfVertices] = 1;
-    printf("%d ", numberOfVertices);
-    push(numberOfVertices, stack);
+    NODE* adjacencyList = graph->adjacencyLists[vertexNumber];
+    NODE* temp = adjacencyList;
+    graph->visited[vertexNumber] = 1;
+    printf("%d ", vertexNumber);
+    push(vertexNumber, stack);
     while (temp != NULL)
     {
         int connectedVertex = temp->data;
         if (graph->visited[connectedVertex] == 0)
-        DFS(graph, stack, connectedVertex);
+            DFS(graph, stack, connectedVertex);
         temp = temp->next;
     }
 }
