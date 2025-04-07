@@ -101,7 +101,7 @@ void insertEdges(GRAPH* graph, int edgraph_nr, int numberOfVertices)
     for (i = 0; i < edgraph_nr; i++)
     {
         scanf("%d%d", &source, &destination);
-        addEdge(graph, source, destination);
+        addEdge(graph, source - 1, destination - 1);
     }
 }
 
