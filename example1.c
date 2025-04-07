@@ -113,16 +113,19 @@ void wipe(GRAPH *graph, int nrv)
 void canbe(GRAPH *graph, int nrv, STACK *stack1, STACK *stack2) // 0 sau 1 daca poate fi sau nu ajuns
 {
     int *canbe = calloc(5, sizeof(int));
-    for (int i = 0; i < nrv; i++) // aici i tine loc de numar adica de restaurant{for (int j = 0; j < 5; j++)
-    {
+    for (int i = 0; i < nrv; i++) { // aici i tine loc de numar adica de restaurant{for (int j = 0; j < 5; j++)
+        for(int j = 0; j < 5; j++) {
         DFS(graph, stack1, i);
         wipe(graph, nrv);
         DFS(graph, stack2, j);
-        for (int j = 0; j < nrv && !ans; j++)
-            for (int i = 0; i < nrv && !ans; i++)
+        for (int j = 0; j < nrv && !ans; j++) {
+            for (int i = 0; i < nrv && !ans; i++) {
                 if ((stack1->array[i] == j) && (stack2->array[j] == i)) {
                     canbe = 1;
                 }
+            }
+        }
+    }
     }
 }
 
