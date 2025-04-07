@@ -32,7 +32,7 @@ GRAPH* createGraph(int vertices)
     GRAPH* graph = (GRAPH*)malloc(sizeof(GRAPH));
     graph->vertices = vertices;
     graph->adjacencyLists = (NODE**)malloc(vertices * sizeof(NODE *));
-    graph->visited = (int*)malloc(sizeof(int) * vertices);
+    graph->visited = (int*)malloc(vertices * sizeof(int));
     
     for (i = 0; i < vertices; i++)
     {
