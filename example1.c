@@ -14,8 +14,8 @@ typedef struct Node
 typedef struct graph
 {
     int v;
-    int *vis;
-    struct Node **last;
+    int *visited;
+    struct Node **alists;
 } GRAPH;
 
 typedef struct s
@@ -36,11 +36,11 @@ NODE* createNode(int value)
 void add_edge(GRAPH *graph, int source, int destination)
 {
     NODE *newNode = create_node(destination);
-    newNode->next = graph->last[source];
-    graph->last[source] = newNode;
+    newNode->next = graph->alists[source];
+    graph->alists[source] = newNode;
     newNode = create_node(source);
-    newNode->next = graph->last[destination];
-    graph->last[destination] = newNode;
+    newNode->next = graph->alists[destination];
+    graph->alists[destination] = newNode;
 }
 
 GRAPH *create_graph(int v)
@@ -48,13 +48,13 @@ GRAPH *create_graph(int v)
     int i;
     GRAPH *graph = malloc(sizeof(GRAPH));
     graph->v = v;
-    graph->last = malloc(sizeof(NODE *));
-    graph->vis = malloc(sizeof(int) * v);
+    graph->alists = malloc(sizeof(NODE *));
+    graph->visited = malloc(sizeof(int) * v);
 
     for (int i = 0; i < v; i++)
     {
-        graph->last[i] = NULL;
-        graph->vis[i] = 0;
+        graph->alists[i] = NULL;
+        graph->visited[i] = 0;
     }
     return graph;
 }
@@ -77,15 +77,15 @@ void push(int value, STACK *stack)
 
 void DFS(GRAPH *graph, STACK *stack, int v_nr)
 {
-    NODE *adj_list = graph->last[v_nr];
+    NODE *adj_list = graph->alists[v_nr];
     NODE *aux = adj_list;
-    graph->vis[v_nr] = 1;
+    graph->visited[v_nr] = 1;
     printf("%d ", v_nr);
     push(v_nr, s);
     while (aux != NULL)
     {
         int con_ver = aux->data;
-        if (graph->vis[con_ver] == 0)
+        if (graph->visited[con_ver] == 0)
             DFS(graph, s, con_ver);
         aux = aux->next;
     }
@@ -106,7 +106,7 @@ void wipe(GRAPH *graph, int nrv)
 {
     for (int i = 0; i < nrv; i++)
     {
-        graph->vis[i] = 0;
+        graph->visited[i] = 0;
     }
 }
 
