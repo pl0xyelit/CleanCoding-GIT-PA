@@ -90,7 +90,6 @@ void enqueue(NODE** queue, int data)
 int dequeue(NODE** queue)
 {
     int data = (*queue)->data;
-    NODE* temp = *queue;
     *queue = (*queue)->next;
     return data;
 }
@@ -181,10 +180,7 @@ int main()
 
     int numberOfVertices;
     int numberOfEdges;
-    int source, destination;
-    int i;
     int startingVertex;
-    int *adjacentMatrix;
 
     printf("cate noduri are graful?: ");
     scanf("%d", &numberOfVertices);
