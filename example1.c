@@ -51,8 +51,8 @@ GRAPH* createGraph(int numberOfVertices)
 
 STACK* createStack(int stackCap)
 {
-    STACK* stack = malloc(sizeof(STACK));
-    stack->array = malloc(stackCap * sizeof(int));
+    STACK* stack = (STACK*)malloc(sizeof(STACK));
+    stack->array = (STACK*)malloc(stackCap * sizeof(int));
     stack->top = -1;
     stack->stackCap = stackCap;
     
