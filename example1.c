@@ -75,19 +75,19 @@ void push(int value, STACK *stack)
     stack->array[stack->top] = value;
 }
 
-void DFS(GRAPH *graph, STACK *stack, int v_nr)
+void DFS(GRAPH *graph, STACK *stack, int numberOfVertices)
 {
-    NODE *adj_list = graph->alists[v_nr];
-    NODE *aux = adj_list;
-    graph->visited[v_nr] = 1;
-    printf("%d ", v_nr);
-    push(v_nr, stack);
-    while (aux != NULL)
+    NODE *adj_list = graph->alists[numberOfVertices];
+    NODE *temp = adj_list;
+    graph->visited[numberOfVertices] = 1;
+    printf("%d ", numberOfVertices);
+    push(numberOfVertices, stack);
+    while (temp != NULL)
     {
-        int con_ver = aux->data;
-        if (graph->visited[con_ver] == 0)
-            DFS(graph, stack, con_ver);
-        aux = aux->next;
+        int connectedVertex = temp->data;
+        if (graph->visited[connectedVertex] == 0)
+            DFS(graph, stack, connectedVertex);
+        temp = temp->next;
     }
 }
 
@@ -134,11 +134,6 @@ int main()
 
     int numberOfVertices;
     int numberOfEdges;
-    // int source, destination;
-    // int i;
-    // int vortex_1;
-    // int virtex_2;
-    // int ans;
 
     printf("cate noduri are graful? ");
     scanf("%d", &numberOfVertices);
