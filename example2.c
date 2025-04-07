@@ -24,7 +24,7 @@ NODE* createNode(int value)
     new_node->next = NULL;
     return new_node;
 }
-GRAPH *createGraph(int vertices)
+GRAPH* createGraph(int vertices)
 {
     int i;
     GRAPH* graph = (GRAPH*)malloc(sizeof(GRAPH));
@@ -51,7 +51,7 @@ void addEdge(GRAPH* graph, int src, int dest)
     new_node->next = graph->adjacencyLists[dest];
     graph->adjacencyLists[dest] = new_node;
 }
-int *insertEdges(int nr_of_vertices, int nr_of_edges, GRAPH *graph)
+int* insertEdges(int nr_of_vertices, int nr_of_edges, GRAPH *graph)
 {
     int src, dest, i;
     printf("adauga %d muchii (de la 1 la %d)\n", nr_of_edges, nr_of_vertices);
@@ -87,7 +87,7 @@ void enqueue(NODE** queue, int data)
 int dequeue(NODE** queue)
 {
     int data = (*queue)->data;
-    NODE *temp = *queue;
+    NODE* temp = *queue;
     *queue = (*queue)->next;
     return data;
 }
@@ -157,7 +157,7 @@ void BFS(GRAPH* graph, int start)
         int current = dequeue(&queue);
         printf("%d ", current);
 
-        NODE *temp = graph->adjacencyLists[current];
+        NODE* temp = graph->adjacencyLists[current];
 
         while (temp)
         {
