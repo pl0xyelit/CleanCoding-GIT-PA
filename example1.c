@@ -65,7 +65,7 @@ void push(int value, STACK *stack)
     stack->array[stack->top] = value;
 }
 
-void DFS(GRAPH *graph, STACK *stack, int numberOfVertices)
+void DFS(GRAPH* graph, STACK* stack, int numberOfVertices)
 {
     NODE* adj_list = graph->adjacencyLists[numberOfVertices];
     NODE* temp = adj_list;
