@@ -25,10 +25,10 @@ typedef struct s
     int *array;
 } STACK;
 
-NODE *create_node(int v)
+NODE* createNode(int value)
 {
     NODE *newNode = malloc(sizeof(NODE));
-    newNode->data = v;
+    newNode->data = value;
     newNode->next = NULL;
     return newNode;
 }
