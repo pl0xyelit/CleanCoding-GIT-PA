@@ -28,6 +28,10 @@ typedef struct stack
 NODE *createNode(int value)
 {
     NODE *newNode = (NODE *)malloc(sizeof(NODE));
+    if(newNode == NULL) {
+        fprintf(stderr, "Eroare alocare!\n");
+        exit(1);
+    }
     newNode->data = value;
     newNode->next = NULL;
     return newNode;
@@ -37,11 +41,15 @@ GRAPH *createGraph(int numberOfVertices)
 {
     int i;
     GRAPH *graph = (GRAPH *)malloc(sizeof(GRAPH));
+    if (graph == NULL) {
+        fprintf(stderr, "Eroare alocare!\n");
+        exit(1);
+    }
     graph->vertices = numberOfVertices;
-    graph->adjacencyLists = (NODE **)malloc(numberOfVertices * sizeof(NODE *));
-    graph->visited = (int *)malloc(numberOfVertices * sizeof(int));
+    graph->adjacencyLists = (NODE **)malloc((numberOfVertices + 1) * sizeof(NODE *));
+    graph->visited = (int *)malloc((numberOfVertices + 1) * sizeof(int));
 
-    for (i = 0; i < numberOfVertices; i++)
+    for (i = 1; i <= numberOfVertices; i++)
     {
         graph->adjacencyLists[i] = NULL;
         graph->visited[i] = 0;
@@ -70,7 +78,6 @@ void DFS(GRAPH *graph, STACK *stack, int vertexNumber)
     NODE *adjacencyList = graph->adjacencyLists[vertexNumber];
     NODE *temp = adjacencyList;
     graph->visited[vertexNumber] = 1;
-    // printf("%d ", vertexNumber + 1);
     push(vertexNumber, stack);
     while (temp != NULL)
     {
@@ -94,50 +101,49 @@ void addEdge(GRAPH *graph, int source, int destination)
     graph->adjacencyLists[destination] = newNode;
 }
 
-void insertEdges(GRAPH *graph, int numberOfEdges, int numberOfVertices)
+void insertEdges(GRAPH *graph, int numberOfEdges)
 {
     int source, destination, i;
-    printf("adauga %d munchii (de la 1 la %d)\n", numberOfEdges, numberOfVertices);
+    printf("adauga %d munchii (de la 1 la %d)\n", numberOfEdges, graph->vertices);
     for (i = 0; i < numberOfEdges; i++)
     {
         scanf("%d%d", &source, &destination);
-        addEdge(graph, source - 1, destination - 1);
+        addEdge(graph, source, destination);
     }
 }
 
-void wipe(GRAPH *graph, int numberOfVertices)
+void wipe(GRAPH *graph)
 {
-    for (int i = 0; i < numberOfVertices; i++)
+    for (int i = 1; i <= graph->vertices; i++)
     {
         graph->visited[i] = 0;
     }
 }
 
-void canbe(GRAPH *graph, int numberOfVertices, STACK *stack1, STACK *stack2) // 0 sau 1 daca poate fi sau nu ajuns
-{
-    // int* canbe = calloc(5, sizeof(int));
-    int ans = 0;
-    for (int j = 0; j < numberOfVertices && !ans; j++)
-    {
-        DFS(graph, stack1, j);
-        wipe(graph, numberOfVertices);
-        for (int i = 0; i < numberOfVertices && !ans; i++)
-        {
-            DFS(graph, stack2, i);
-            if ((stack1->array[i] == j) && (stack2->array[j] == i))
-            {
-                ans = 1;
-                break;
+void subsequentDFS(GRAPH* graph, STACK* stack1, STACK* stack2) {
+    int* ans = calloc(graph->vertices, sizeof(int));
+    if (ans == NULL) {
+        fprintf(stderr, "Eroare alocare!\n");
+        exit(1);
+    }
+    for (int i = 1; i <= graph->vertices; i++) {
+        for (int j = 1; j <= graph->vertices; j++) {
+            stack1->top = 0;
+            DFS(graph, stack1, i);
+
+            wipe(graph);
+
+            stack2->top = 0;
+            DFS(graph, stack2, j);
+
+            for (int j = 1; j <= graph->vertices; j++) {
+                for (int i = 1; i <= graph->vertices; i++) {
+                    if ((stack1->array[i - 1] == j) && (stack2->array[j - 1] == i)) {
+                        ans[i] = 1;
+                    }
+                }
             }
         }
-    }
-    if (ans)
-    {
-        printf("Graful poate fi ajuns de la restaurantul %d si invers.\n", stack1->array[0] + 1);
-    }
-    else
-    {
-        printf("Graful NU poate fi ajuns de la niciun restaurant.\n");
     }
 }
 
@@ -153,11 +159,15 @@ int main()
     printf("cate muchii are graful? ");
     scanf("%d", &numberOfEdges);
 
-    GRAPH *graph = createGraph(numberOfVertices);
-    STACK *stack1 = createStack(2 * numberOfVertices);
-    STACK *stack2 = createStack(2 * numberOfVertices);
+    GRAPH* graph = createGraph(numberOfVertices);
+    STACK* stack1 = createStack(2 * numberOfVertices);
+    STACK* stack2 = createStack(2 * numberOfVertices);
 
-    insertEdges(graph, numberOfEdges, numberOfVertices);
+    insertEdges(graph, numberOfEdges);
 
-    canbe(graph, numberOfVertices, stack1, stack2);
+    subsequentDFS(graph, stack1, stack2);
+
+    printf("Compileaza dar nu sunt sigur ce trebuie sa faca\n");
+
+    return 0;
 }
